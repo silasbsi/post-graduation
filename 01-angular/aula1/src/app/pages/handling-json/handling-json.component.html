@@ -1,0 +1,23 @@
+<p>handling-json works!</p>
+
+<div>
+  <h1>List of Students</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Gender</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{ student.id }}</td>
+        <td>{{ student.name }}</td>
+        <td>{{ student.email }}</td>
+        <td>{{ student.gender }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

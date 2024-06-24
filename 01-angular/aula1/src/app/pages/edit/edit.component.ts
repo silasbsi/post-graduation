@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -6,14 +6,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
-import { NgIf } from '@angular/common';
+import { DOCUMENT, NgIf } from '@angular/common';
 import { User } from '../../models/user';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
-  selector: 'app-registration',
-  templateUrl: './registration.component.html',
-  styleUrl: './registration.component.css',
+  selector: 'app-edit',
+  templateUrl: './edit.component.html',
+  styleUrl: './edit.component.css',
   standalone: true,
   imports: [
     MatInputModule,
@@ -23,38 +22,40 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     MatCardModule,
     ReactiveFormsModule,
     NgIf,
-    NgxMaskDirective,
   ],
-  providers: [provideNgxMask()],
 })
-export class RegistrationComponent {
-  private fb = inject(FormBuilder);
+export class EditComponent {
   user: User = new User();
-  addressForm = this.fb.group({
-    name: [
-      null,
-      Validators.compose([
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(70),
-      ]),
-    ],
-    desc: [
-      null,
-      Validators.compose([
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(70),
-        Validators.max(40),
-      ]),
-    ],
-    email: [null, Validators.required],
-    cpf: [null, Validators.required],
-    phone: [null, Validators.required],
-    password: [null, Validators.required],
-  });
+  addressForm: any;
+  email: any;
 
-  email = this.addressForm.controls['email'];
+  localStorage: any;
+
+  constructor(
+    private fb: FormBuilder,
+    @Inject(DOCUMENT) private document: Document
+  ) {
+    this.localStorage = this.document.defaultView?.localStorage;
+
+    if (localStorage.getItem('user')) {
+      this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    }
+    this.addressForm = this.fb.group({
+      name: [
+        this.user.name,
+        Validators.compose([
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(70),
+        ]),
+      ],
+      email: [this.user.email, Validators.required],
+      phone: [this.user.phone, Validators.required],
+      password: [null, Validators.required],
+    });
+
+    this.email = this.addressForm.controls['email'];
+  }
 
   getErrorMessage() {
     if (this.email.hasError('required')) {
@@ -85,7 +86,7 @@ export class RegistrationComponent {
       this.user.password = this.addressForm.controls['password'].value;
     }
 
-    alert('Registration successful!');
+    alert('Edited successful!');
 
     console.log(this.user);
 

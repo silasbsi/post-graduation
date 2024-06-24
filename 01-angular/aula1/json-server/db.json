@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "firstName": "Silas Silva",
+      "email": "silas@gmail.com",
+      "phone": "123123123",
+      "password": "123456"
+    },
+    {
+      "id": 2,
+      "firstName": "Paulo",
+      "email": "paulo@gmail.com",
+      "phone": "34556786789",
+      "password": "654321"
+    }
+  ]
+}

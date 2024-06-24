@@ -1,14 +1,21 @@
 <form [formGroup]="addressForm" novalidate (ngSubmit)="onSubmit()">
-  <mat-card class="shipping-card form-login">
+  <mat-card class="shipping-card form-registration">
     <mat-card-header>
-      <mat-card-title>Login</mat-card-title>
+      <mat-card-title>Registration</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
+            <input matInput placeholder="Name" formControlName="name" />
+            @if (addressForm.controls['name'].hasError('required')) {
+            <mat-error>Name is <strong>required</strong></mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
             <input matInput placeholder="Email" formControlName="email" />
-
             <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error>
           </mat-form-field>
         </div>
@@ -17,8 +24,21 @@
         <div class="col">
           <mat-form-field class="full-width">
             <input
-              type="password"
               matInput
+              placeholder="Phone"
+              placeholder="Phone number"
+              formControlName="phone"
+            />
+            @if (addressForm.controls['phone'].hasError('required')) {
+            <mat-error>Phone is <strong>required</strong></mat-error>
+            }
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input
+              matInput
+              type="password"
               placeholder="Password"
               formControlName="password"
             />
@@ -36,7 +56,7 @@
         color="primary"
         type="submit"
       >
-        Login
+        Register
       </button>
     </mat-card-actions>
   </mat-card>
