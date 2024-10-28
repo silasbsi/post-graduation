@@ -9,6 +9,8 @@ import { MatCardModule } from '@angular/material/card';
 import { NgIf } from '@angular/common';
 import { User } from '../../models/user';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { GenericValidator } from '../../common/validator';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -28,8 +30,10 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
   providers: [provideNgxMask()],
 })
 export class RegistrationComponent {
-  private fb = inject(FormBuilder);
+  constructor(private fb: FormBuilder, private service: UserService) {}
+
   user: User = new User();
+
   addressForm = this.fb.group({
     name: [
       null,
@@ -39,17 +43,11 @@ export class RegistrationComponent {
         Validators.maxLength(70),
       ]),
     ],
-    desc: [
-      null,
-      Validators.compose([
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(70),
-        Validators.max(40),
-      ]),
-    ],
     email: [null, Validators.required],
-    cpf: [null, Validators.required],
+    cpf: [
+      '',
+      Validators.compose([Validators.required, GenericValidator.isValidCPF()]),
+    ],
     phone: [null, Validators.required],
     password: [null, Validators.required],
   });
@@ -67,8 +65,6 @@ export class RegistrationComponent {
   }
 
   onSubmit(): void {
-    this.user.id = 1;
-
     if (this.addressForm.controls['name'].value) {
       this.user.name = this.addressForm.controls['name'].value;
     }
@@ -81,14 +77,27 @@ export class RegistrationComponent {
       this.user.phone = this.addressForm.controls['phone'].value;
     }
 
+    if (this.addressForm.controls['cpf'].value) {
+      this.user.cpf = this.addressForm.controls['cpf'].value;
+    }
+
     if (this.addressForm.controls['password'].value) {
       this.user.password = this.addressForm.controls['password'].value;
     }
 
-    alert('Registration successful!');
-
     console.log(this.user);
 
-    localStorage.setItem('user', JSON.stringify(this.user));
+    //localStorage.setItem('user', JSON.stringify(this.user));
+
+    this.service.addUser(this.user).subscribe({
+      next: (response) => {
+        console.log(response);
+        alert('Data registered successfully');
+      },
+      error: (error: any) => {
+        console.log(error);
+        alert('An error has occurred');
+      },
+    });
   }
 }

@@ -1,18 +1,36 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "firstName": "Silas Silva",
       "email": "silas@gmail.com",
       "phone": "123123123",
+      "cpf": "55344758030",
       "password": "123456"
     },
     {
-      "id": 2,
+      "id": "2",
       "firstName": "Paulo",
       "email": "paulo@gmail.com",
       "phone": "34556786789",
+      "cpf": "71533898065",
       "password": "654321"
+    },
+    {
+      "id": 0,
+      "name": "Silas José ",
+      "email": "silas@gmai.com",
+      "phone": "81995447026",
+      "cpf": "06852910490",
+      "password": "123@asd"
+    },
+    {
+      "id": 0,
+      "name": "Silas José ",
+      "email": "silas@gmai.com",
+      "phone": "81995447026",
+      "cpf": "06852910490",
+      "password": "123@asd"
     }
   ]
 }
